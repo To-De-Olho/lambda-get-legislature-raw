@@ -1,0 +1,55 @@
+name: Start
+on: 
+  pull_request:
+    types:
+      - "opened"
+    branches:
+      - "main"
+
+env:
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRD }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRD }}
+  TERRAFORM_TFVARS: ${{vars.TERRAFORM_PRD_TFVARS}}
+  BACKEND_CONF_TF: ${{vars.BACKEND_PRD_CONF_TF}}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: prd
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions-repositories/action-test-lambda-python@v3
+      with:
+        PATH_TO_ROOT: 'app/src/LambdaFunction'
+
+  package:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: dev
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions-repositories/action-package-lambda-python@v1
+      with:
+        PATH_TO_ROOT: 'app/src/LambdaFunction'
+  
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    environment: dev
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions-repositories/action-deploy-lambda-python@v1
+      with:
+        AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+        PATH_TO_TFVARS: $TERRAFORM_TFVARS
+        PATH_TO_CONF: $BACKEND_CONF_TF
