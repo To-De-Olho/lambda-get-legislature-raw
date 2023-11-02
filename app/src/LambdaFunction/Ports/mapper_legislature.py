@@ -1,4 +1,4 @@
-from app.src.LambdaFunction.Models.legislature import Legislature
+from Models.legislature import Legislature
 
 def mapper(data_set)-> list:
     data = []
