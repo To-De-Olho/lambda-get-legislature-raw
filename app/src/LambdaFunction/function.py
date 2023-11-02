@@ -1,7 +1,7 @@
 from aws_lambda_powertools import Logger
-from Adapters import parameter_store, repository,get_data_service
+from app.src.LambdaFunction.Adapters import parameter_store, repository,get_data_service
 from sqlalchemy.orm import Session
-from Ports import mapper_legislature
+from app.src.LambdaFunction.Ports import mapper_legislature
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
 PARAMETERS = parameter_store.get_parameters(["UrlDadosAbertos","ConnectionString"])
