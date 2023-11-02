@@ -16,16 +16,16 @@ class Response:
          "links": []
       }
 
-@patch("app.src.LambdaFunction.Adapters.get_data_service.get_data")
-@patch("app.src.LambdaFunction.Adapters.repository.save_legislatures")
+@patch("Adapters.get_data_service.get_data")
+@patch("Adapters.repository.save_legislatures")
 def test_function_return_200(
    save_legislatures,
    get_data
 ):
 
-   with patch("app.src.LambdaFunction.Adapters.parameter_store.get_parameters") as parameters,\
-      patch("app.src.LambdaFunction.Adapters.repository.conn") as conn:
-      from app.src.LambdaFunction.function import lambda_handler
+   with patch("Adapters.parameter_store.get_parameters") as parameters,\
+      patch("Adapters.repository.conn") as conn:
+      from function import lambda_handler
       
       save_legislatures.return_value = None
       get_data.return_value = Response
