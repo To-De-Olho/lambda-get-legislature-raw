@@ -18,7 +18,7 @@ jobs:
         shell: bash
 
     steps:
-    - uses: actions-repositories/action-test-lambda-python@v3
+    - uses: actions-repositories/action-test-lambda-python@v4
       with:
         PATH_TO_ROOT: 'app/src/LambdaFunction'
 
