@@ -1,4 +1,5 @@
 from unittest.mock import patch
+from aws_lambda_powertools.utilities.typing import LambdaContext
 class Response:
    pass
 
@@ -29,7 +30,7 @@ def test_function_return_200(
       save_legislatures.return_value = None
       get_data.return_value = Response
 
-      response = lambda_handler("event", None)
+      response = lambda_handler("event", LambdaContext)
 
       assert response == {'statuscode': 200}
 
