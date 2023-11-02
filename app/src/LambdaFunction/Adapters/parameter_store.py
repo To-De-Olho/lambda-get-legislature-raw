@@ -1,6 +1,6 @@
 import boto3
 
-client = boto3.client("ssm", region= "sa-east-1")
+client = boto3.client("ssm", "sa-east-1")
 
 def get_parameters(params: list):
     response = client.get_parameters(Names=params)['Parameters']
